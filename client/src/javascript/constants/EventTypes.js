@@ -79,6 +79,7 @@ const eventTypes = [
   'UI_TORRENTS_FILTER_SEARCH_CHANGE',
   'UI_TORRENTS_LIST_FILTERED',
   'UI_TORRENTS_SORT_CHANGE',
+  'UI_CLICK_HUMBERGER',
 ];
 
 export default objectUtil.createStringMapFromArray(eventTypes);

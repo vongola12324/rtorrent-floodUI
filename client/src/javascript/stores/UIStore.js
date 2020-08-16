@@ -15,6 +15,7 @@ class UIStoreClass extends BaseStore {
     this.haveUIDependenciesResolved = false;
     this.latestTorrentLocation = null;
     this.torrentDetailsHash = null;
+    this.sidebarVisibility = true;
     this.createStyleElement();
   }
 
@@ -157,6 +158,16 @@ class UIStoreClass extends BaseStore {
       this.emit(EventTypes.UI_DEPENDENCIES_LOADED);
     }
   }
+
+  setSidebarVisibility(data) {
+    this.sidebarVisibility = data;
+    console.log(this.sidebarVisibility);
+    this.emit(EventTypes.UI_CLICK_HUMBERGER);
+  }
+
+  getSidebarVisibility() {
+    return this.sidebarVisibility;
+  }
 }
 
 const UIStore = new UIStoreClass();
@@ -201,6 +212,9 @@ UIStore.dispatcherID = AppDispatcher.register((payload) => {
       break;
     case ActionTypes.TRANSFER_HISTORY_FULL_UPDATE:
       UIStore.satisfyDependency('transfer-history');
+      break;
+    case ActionTypes.UI_CLICK_HUMBERGER:
+      UIStore.setSidebarVisibility(action.data);
       break;
     default:
       break;

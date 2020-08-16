@@ -14,6 +14,8 @@ import StopIcon from '../icons/StopIcon';
 import TorrentActions from '../../actions/TorrentActions';
 import TorrentStore from '../../stores/TorrentStore';
 import UIActions from '../../actions/UIActions';
+import HumbergerIcon from '../icons/HumbergerIcon';
+import UIStore from '../../stores/UIStore';
 
 class ActionBar extends React.Component {
   handleAddTorrents() {
@@ -39,6 +41,10 @@ class ActionBar extends React.Component {
     TorrentActions.stopTorrents(TorrentStore.getSelectedTorrents());
   }
 
+  toggleSideBar() {
+    UIActions.toggleSideBar(!(UIStore.getSidebarVisibility()));
+  }
+
   render() {
     const classes = classnames('action-bar', {
       'action-bar--is-condensed': this.props.torrentListViewSize === 'condensed',
@@ -46,6 +52,16 @@ class ActionBar extends React.Component {
 
     return (
       <nav className={classes}>
+        <div className="actions action-bar__item action-bar__item--humberger">
+          <Action
+            label={this.props.intl.formatMessage({
+                id: 'actionbar.button.humberger',
+                message: 'Toggle Sidebar',
+              })}
+            icon={<HumbergerIcon />}
+            clickHandler={this.toggleSideBar}
+          />
+        </div>
         <div className="actions action-bar__item action-bar__item--sort-torrents">
           <SortDropdown
             direction={this.props.sortBy.direction}
@@ -105,6 +121,7 @@ const ConnectedActionBar = connectStores(injectIntl(ActionBar), () => {
         return {
           sortBy: store.getFloodSettings('sortTorrents'),
           torrentListViewSize: store.getFloodSettings('torrentListViewSize'),
+          sidebarVisible: store.getFloodSettings('sidebarVisible'),
         };
       },
     },

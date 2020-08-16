@@ -95,6 +95,7 @@ const actionTypes = [
   'UI_SET_TORRENT_TRACKER_FILTER',
   'UI_SORT_PROPS_REQUEST_SUCCESS',
   'UI_SORT_PROPS_REQUEST_ERROR',
+  'UI_CLICK_HUMBERGER',
 ];
 
 export default objectUtil.createStringMapFromArray(actionTypes);

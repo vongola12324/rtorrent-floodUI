@@ -91,6 +91,14 @@ const UIActions = {
       data,
     });
   },
+
+  toggleSideBar: (data) => {
+    console.log(data);
+    AppDispatcher.dispatchUIAction({
+      type: ActionTypes.UI_CLICK_HUMBERGER,
+      data,
+    });
+  },
 };
 
 export default UIActions;

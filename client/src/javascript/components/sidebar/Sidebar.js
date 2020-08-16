@@ -1,5 +1,4 @@
 import React from 'react';
-
 import ClientStats from './TransferData';
 import CustomScrollbars from '../general/CustomScrollbars';
 import FeedsButton from './FeedsButton';
@@ -13,9 +12,37 @@ import StatusFilters from './StatusFilters';
 import TagFilters from './TagFilters';
 import TrackerFilters from './TrackerFilters';
 import DiskUsage from './DiskUsage';
+import UIStore from '../../stores/UIStore';
+import ReactSidebar from "react-sidebar";
+import UIActions from '../../actions/UIActions';
+import EventTypes from '../../constants/EventTypes';
 
-const Sidebar = () => {
-  return (
+class SideBar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      sidebarOpen: UIStore.getSidebarVisibility(),
+    };
+    this.setState = this.setState.bind(this);
+  }
+
+  componentDidMount() {
+    UIStore.listen(EventTypes.UI_CLICK_HUMBERGER, this.setState);  
+  }
+
+  componentWillUnmount() {
+    UIStore.unlisten(EventTypes.UI_CLICK_HUMBERGER, this.setState);  
+  }
+
+  setState() {
+    this.state = {
+      sidebarOpen: UIStore.getSidebarVisibility()
+    };
+    console.log(this.state.sidebarOpen);
+  }
+
+  render() {
+    const sidebar = (
     <CustomScrollbars className="application__sidebar" inverted>
       <SidebarActions>
         <SpeedLimitDropdown />
@@ -31,7 +58,20 @@ const Sidebar = () => {
       <TrackerFilters />
       <DiskUsage />
     </CustomScrollbars>
-  );
-};
+    );
 
-export default Sidebar;
+    const sidebarProps = {
+      sidebar,
+      open: this.state.sidebarOpen,
+      onSetOpen: UIActions.toggleSideBar(!(UIStore.getSidebarVisibility())),
+    }
+    
+    return (
+      <ReactSidebar {...sidebarProps}>
+        <div></div>
+      </ReactSidebar>
+    );
+  }
+}
+
+export default SideBar;
